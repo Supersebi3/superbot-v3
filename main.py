@@ -6,7 +6,6 @@ import libneko
 
 bot = libneko.Bot(command_prefix="s#")
 
-@bot.listen('on_ready')
 @bot.listen('on_connect')
 async def get_owner():
     app_info = await bot.application_info()
