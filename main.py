@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands
 import libneko
 
+print(libneko.__version__)
+
 from bot import Bot
 
 bot = Bot(command_prefix="s#")
