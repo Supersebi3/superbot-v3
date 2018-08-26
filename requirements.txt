@@ -1,2 +1,2 @@
 git+https://github.com/rapptz/discord.py@rewrite
-libneko
+libneko>=0.15.19
