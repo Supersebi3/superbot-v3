@@ -4,13 +4,15 @@ import discord
 from discord.ext import commands
 import libneko
 
-bot = libneko.Bot(command_prefix="s#")
+from bot import Bot
 
-@bot.listen('on_connect')
-async def get_owner():
+bot = Bot(command_prefix="s#")
+
+@bot.listen()
+async def on_connect():
     app_info = await bot.application_info()
     bot.app_info = app_info
-    bot.owner_id = app_info.owner.id
+    bot.owner_id = app_info.owner_id
 
-bot.load_extension('libneko.extras.superuser')
+bot.load_extension("libneko.extras.superuser")
 bot.run(os.environ["TOKEN"])
