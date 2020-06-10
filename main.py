@@ -9,8 +9,6 @@ print(libneko.__version__)
 from bot import Bot
 
 bot = Bot(command_prefix="s#")
-#random comment
-bot.remove_command("help")
-bot.load_extension("libneko.extras.help")
+
 bot.load_extension("libneko.extras.superuser")
 bot.run(os.environ["TOKEN"])
