@@ -1,4 +1,4 @@
 discord.py
-libneko
+git+https://gitlab.com/Tmpod/libneko.git
 requests
 aiofiles
