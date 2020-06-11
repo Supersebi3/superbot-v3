@@ -1,4 +1,5 @@
 import os
+import sys
 
 import discord
 from discord.ext import commands
@@ -10,7 +11,7 @@ bot = Bot(command_prefix="s#")
 
 @bot.command()
 async def test(ctx):
-    await ctx.send("Hi!")
+    await ctx.send(f"Hi! Python version: ```{sys.version}```dpy version: {discord.__version__}")
 
 
 bot.run(os.environ["TOKEN"])
