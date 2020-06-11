@@ -16,14 +16,14 @@ class Puzzle(commands.Cog):
         if num2 > num1:
             num1, num2 = num2, num1
         bin1 = bin(num1)[2:]
-       l = len(bin1)
-       bin2 = f"{num2:0{l}b}"
-       t = ''
-       for b1, b2 in zip(bin1, bin2):
-           b1, b2 = int(b1), int(b2)
-           new = 0 if not (b1+b2) else 1 if b1>b2 else 2 if b2>b1 else 3
-           t = f"{t}{new}"
-       ctx.send(int(t, 4))
+        l = len(bin1)
+        bin2 = f"{num2:0{l}b}"
+        t = ''
+        for b1, b2 in zip(bin1, bin2):
+            b1, b2 = int(b1), int(b2)
+            new = 0 if not (b1+b2) else 1 if b1>b2 else 2 if b2>b1 else 3
+            t = f"{t}{new}"
+        await ctx.send(int(t, 4))
 
     @commands.command()
     def decode(self, ctx, num:int):
