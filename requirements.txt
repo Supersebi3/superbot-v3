@@ -1,4 +1,5 @@
 discord.py
-git+https://gitlab.com/Tmpod/libneko.git
+git+https://gitlab.com/Tmpod/libneko@commands-fix
 requests
 aiofiles
+Pillow
