@@ -1,12 +1,11 @@
 import os
 import json
 
-import libneko
-
+from discord.ext import commands
 from context import Context
 
 
-class Bot(libneko.Bot):
+class Bot(commands.Bot):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.uconf = {}
