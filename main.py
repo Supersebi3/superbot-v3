@@ -13,5 +13,6 @@ bot = Bot(command_prefix="s#")
 async def test(ctx):
     await ctx.send(f"Hi! Python version: ```{sys.version}```dpy version: {discord.__version__}")
 
+bot.load_extension("libneko.extras.superuser")
 
 bot.run(os.environ["TOKEN"])
