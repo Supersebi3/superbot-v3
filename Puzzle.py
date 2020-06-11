@@ -42,7 +42,7 @@ class Puzzle(commands.Cog):
     @commands.command()
     async def tobase(self, ctx, num: int, base: int):
         if not 1 < base < 10:
-            await ctx.send("Invalid range.")
+            await ctx.send("Invalid base.")
             return
         if num == 0:
             await ctx.send("0")
