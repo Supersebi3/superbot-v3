@@ -15,6 +15,7 @@ def base4(n):
 class Puzzle(commands.Cog):
     @commands.command()
     async def encode(self, ctx, num1: int, num2: int):
+        """Encode a pair of numbers. Encode how? That's for you to find out!"""
         l = len(bin(max(num1, num2))[2:])
         bin1 = f"{num1:0{l}b}"
         bin2 = f"{num2:0{l}b}"
@@ -27,6 +28,7 @@ class Puzzle(commands.Cog):
 
     @commands.command()
     async def decode(self, ctx, num: int):
+        """Reverse the encoding."""
         b4 = base4(num)
         num1 = 0
         num2 = 0
@@ -41,17 +43,19 @@ class Puzzle(commands.Cog):
 
     @commands.command()
     async def tobase(self, ctx, num: int, base: int):
-        if not 1 < base < 10:
+        """Convert any integer to any base between 2 and 36."""
+        if not 1 < base < 37:
             await ctx.send("Invalid base.")
             return
+        conv = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         if num == 0:
             await ctx.send("0")
             return
-        nums = []
+        digs = []
         while num:
             num, r = divmod(num, base)
-            nums.append(str(r))
-        await ctx.send(("".join(nums))[::-1])
+            digs.append(conv[r])
+        await ctx.send(("".join(digs))[::-1])
 
 
 def setup(bot):
