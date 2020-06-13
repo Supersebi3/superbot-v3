@@ -6,10 +6,7 @@ import asyncio
 from utils import checks
 
 
-class Fun:
-    def __init__(self, bot):
-        self.bot = bot
-
+class Fun(commands.Cog):
     @checks.no_bots()
     @commands.cooldown(1, 5, commands.BucketType.user)
     @commands.command(aliases="pang peng pong \U0001F3D3".split())
