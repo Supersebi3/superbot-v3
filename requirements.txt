@@ -1,4 +1,4 @@
-discord.py
+discord.py==1.3.4
 git+https://gitlab.com/Tmpod/libneko@commands-fix
 requests
 aiofiles
