@@ -3,3 +3,4 @@ git+https://gitlab.com/Tmpod/libneko@commands-fix
 requests
 aiofiles
 Pillow
+git+https://github.com/Supersebi3/pilutils
