@@ -1,13 +1,10 @@
 import os
 import sys
 import logging
-from io import BytesIO
 
 import discord
 from discord.ext import commands
 import libneko
-from PIL import Image
-from pilutils.parse import parse
 
 from bot import Bot
 
@@ -19,17 +16,6 @@ bot = Bot(command_prefix="s#", enable_default_help=False)
 @bot.command()
 async def test(ctx):
     await ctx.send(f"Hi! Python version: ```{sys.version}```dpy version: {discord.__version__}\nlibneko version: {libneko.__version__}")
-
-@bot.command()
-async def color(ctx, *, color):
-    try:
-        c = parse(color)
-    except ValueError:
-        return await ctx.send("Color could not be parsed. :(")
-    img = Image.new("RGB", (64,64), c)
-    img.save(bio := BytesIO(), "png")
-    bio.seek(0)
-    await ctx.send(file=discord.File(bio, "color.png"))
 
 @bot.listen()
 async def on_ready():
