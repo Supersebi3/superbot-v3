@@ -9,7 +9,7 @@ from context import Context
 class Bot(libneko.Bot):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.uconf = {}
+        self.uconf = {242887101018931200: {"language": "de"}}
 
         self.strings = {}
         for name in os.listdir("i18n"):
