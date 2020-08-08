@@ -30,3 +30,5 @@ bot.load_extension("exts.Puzzle")
 bot.load_extension("exts.Misc")
 
 bot.run(os.environ["TOKEN"])
+
+# this is a comment
