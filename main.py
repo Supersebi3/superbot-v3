@@ -25,7 +25,8 @@ async def on_ready():
     await bot.change_presence(activity=discord.Game("testing testing testing"))
 
 bot.load_extension("libneko.extras.superuser")
-bot.load_extension("libneko.extras.help")
+#bot.load_extension("libneko.extras.help")
 bot.load_extension("exts.Puzzle")
+bot.load_extension("exts.Misc")
 
 bot.run(os.environ["TOKEN"])
