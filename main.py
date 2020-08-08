@@ -8,6 +8,9 @@ import libneko
 
 from bot import Bot
 
+# install pilutils after new setuptools has been built
+os.system("pip install git+https://github.com/Supersebi3/pilutils")
+
 logging.basicConfig(level=logging.INFO)
 
 bot = Bot(command_prefix="s#", enable_default_help=False)
