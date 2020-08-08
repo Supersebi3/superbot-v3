@@ -13,7 +13,7 @@ os.system("pip install git+https://github.com/Supersebi3/pilutils")
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(command_prefix="s#", enable_default_help=False)
+bot = Bot(command_prefix="s#")
 
 
 @bot.command()
