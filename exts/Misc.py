@@ -24,7 +24,7 @@ class Misc(commands.Cog):
 
 
     @commands.command()
-    async def color(ctx, *, color):
+    async def color(self, ctx, *, color):
         try:
             c = parse(color)
         except ValueError:
