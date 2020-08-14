@@ -24,10 +24,18 @@ async def test(ctx):
 async def on_ready():
     await bot.change_presence(activity=discord.Game("testing testing testing"))
 
-bot.load_extension("libneko.extras.superuser")
-#bot.load_extension("libneko.extras.help")
-bot.load_extension("exts.Puzzle")
-bot.load_extension("exts.Misc")
+exts = [
+    "libneko.extras.superuser",
+#    "libneko.extras.help",
+    "exts.Puzzle",
+    "exts.Misc",
+    "exts.Graphics",
+]
+
+
+for ext in exts:
+    bot.load_extension(ext)
+
 
 bot.run(os.environ["TOKEN"])
 
