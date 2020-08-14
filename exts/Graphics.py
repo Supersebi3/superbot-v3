@@ -54,6 +54,7 @@ class Graphics(commands.Cog):
         )
         img = make_palette(colors)
         img.save(bio := BytesIO(), "png")
+        bio.seek(0)
         await ctx.send(file=discord.File(bio, "palette.png"))
 
 
