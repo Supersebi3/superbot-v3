@@ -38,10 +38,13 @@ def make_palette(colors):
 class Graphics(commands.Cog):
     @commands.command()
     async def color(self, ctx, *, color):
-        try:
-            c = parse(color)
-        except ValueError:
-            return await ctx.send("Color could not be parsed. :(")
+        if color is None:
+            c = pilutils.random_color()
+        else:
+            try:
+                c = parse(color)
+            except ValueError:
+                return await ctx.send("Color could not be parsed. :(")
         img = Image.new("RGB", (64, 64), c)
         img.save(bio := BytesIO(), "png")
         bio.seek(0)
