@@ -23,17 +23,5 @@ class Misc(commands.Cog):
             await ctx.send(f"{user.name} is {gayness:.1%} gay.")
 
 
-    @commands.command()
-    async def color(self, ctx, *, color):
-        try:
-            c = parse(color)
-        except ValueError:
-            return await ctx.send("Color could not be parsed. :(")
-        img = Image.new("RGB", (64,64), c)
-        img.save(bio := BytesIO(), "png")
-        bio.seek(0)
-        await ctx.send(str(c), file=discord.File(bio, "color.png"))
-
-
 def setup(bot):
     bot.add_cog(Misc(bot))
