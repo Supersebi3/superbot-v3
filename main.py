@@ -18,15 +18,19 @@ bot = Bot(command_prefix="s#")
 
 @bot.command()
 async def test(ctx):
-    await ctx.sendstr("commands.test", sys.version, discord.__version__, libneko.__version__)
+    await ctx.sendstr(
+        "commands.test", sys.version, discord.__version__, libneko.__version__
+    )
+
 
 @bot.listen()
 async def on_ready():
     await bot.change_presence(activity=discord.Game("testing testing testing"))
 
+
 exts = [
     "libneko.extras.superuser",
-#    "libneko.extras.help",
+    #    "libneko.extras.help",
     "exts.Puzzle",
     "exts.Misc",
     "exts.Graphics",

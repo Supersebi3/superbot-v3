@@ -10,12 +10,12 @@ from pilutils.parse import parse
 
 class Misc(commands.Cog):
     @commands.command()
-    async def howgay(self, ctx, *, user: discord.User=None):
+    async def howgay(self, ctx, *, user: discord.User = None):
         you = user is None
         if user is None:
-            user = ctx.author  
+            user = ctx.author
         now = datetime.utcnow()
-        random.seed(user.id*now.month*now.year)
+        random.seed(user.id * now.month * now.year)
         gayness = random.random()
         if you:
             await ctx.send(f"You are {gayness:.1%} gay.")
