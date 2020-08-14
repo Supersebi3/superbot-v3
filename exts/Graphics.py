@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 import pilutils
 from pilutils.parse import parse
 
+import discord
 from discord.ext import commands
 
 
