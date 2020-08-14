@@ -38,7 +38,7 @@ def make_palette(colors):
 class Graphics(commands.Cog):
     @commands.command()
     async def color(self, ctx, *, color):
-        if color is None:
+        if not color:
             c = pilutils.random_color()
         else:
             try:
