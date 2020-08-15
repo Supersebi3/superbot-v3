@@ -51,10 +51,24 @@ class Graphics(commands.Cog):
         await ctx.send(str(c), file=discord.File(bio, "color.png"))
 
     @commands.command()
-    async def palette(self, ctx):
-        colors = (
-            pilutils.mix(pilutils.random_color(), (255, 255, 255)) for _ in range(6)
-        )
+    async def palette(self, ctx, *, color=None):
+        if not color:
+            colors = (
+                pilutils.mix(pilutils.random_color(), (255, 255, 255)) for _ in range(6)
+            )
+        else:
+            try:
+                base = parse(color)
+            except ValueError:
+                return await ctx.send("Invalid color.")
+            angle = random.choice((120, 180, 240))
+            h, s, v = pilutils.rgb_to_hsv(base)
+            oh = (h + (angle/360*255)) % 256
+            cols = [
+                (h, s, 128), (h, s, 192), (h, s, 255),
+                (oh, s, 128), (oh, s, 192), (oh, s, 255)
+            ]
+            colors = map(pilutils.hsv_to_rgb, cols)
         img = make_palette(colors)
         img.save(bio := BytesIO(), "png")
         bio.seek(0)
