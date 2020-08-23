@@ -18,7 +18,7 @@ class Misc(commands.Cog):
             user = ctx.author
         now = datetime.utcnow()
         if isinstance(user, str):
-            seed = prod(ord(c) for c in user) * now.month * now.year
+            seed = prod(ord(c)+i for i, c in enumerate(user)) * now.month * now.year
         else:
             seed = user.id * now.month * now.year
         random.seed(seed)
