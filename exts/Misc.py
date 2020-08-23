@@ -23,6 +23,8 @@ class Misc(commands.Cog):
             seed = user.id * now.month * now.year
         random.seed(seed)
         gayness = random.random()
+        if isinstance(user, str) and user.casefold() == "gay":
+            gayness = 1
         if you:
             await ctx.send(f"You are {gayness:.1%} gay.")
         else:
