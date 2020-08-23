@@ -26,7 +26,8 @@ class Misc(commands.Cog):
         if you:
             await ctx.send(f"You are {gayness:.1%} gay.")
         else:
-            await ctx.send(f"{user.name} is {gayness:.1%} gay.")
+            name = user if isinstance(user, str) else user.name
+            await ctx.send(f"{name} is {gayness:.1%} gay.")
         random.seed()
 
 
