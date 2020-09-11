@@ -41,7 +41,8 @@ class Misc(commands.Cog):
             code = textwrap.dedent(inspect.getsource(ctx.bot.get_command(cmd).callback))
         except AttributeError:
             return await ctx.send(f"Command \"{cmd}\" not found.")
-        fcode = f"```py\n{code}\n```".replace('`', '\xb4')
+        fcode = code.replace('`', '\xb4')
+        fcode = f"```py\n{fcode}\n```"
         if len(fcode) > 2000:
             sio = StringIO()
             sio.write(code)
