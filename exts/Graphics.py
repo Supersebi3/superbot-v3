@@ -32,10 +32,10 @@ class Graphics(commands.Cog):
     @commands.command()
     async def color(self, ctx, *, color=None):
         if not color:
-            c = pilutils.random_color()
+            col = pilutils.random_color()
         else:
             try:
-                c = parse(color)
+                col = parse(color)
             except ValueError:
                 return await ctx.send("Color could not be parsed. :(")
 
@@ -66,7 +66,7 @@ class Graphics(commands.Cog):
             topleft_only=True,
         )
         valpos = pilutils.align_bbox(
-            (0, 0, *img.size),
+                (0, 0, *img.size),
             font.getsize_multiline(valstr, spacing=sp),
             align=9,
             margin=25,
