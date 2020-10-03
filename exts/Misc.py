@@ -20,7 +20,7 @@ class Misc(commands.Cog):
             user = ctx.author
         now = datetime.utcnow()
         if isinstance(user, str):
-            seed = prod(ord(c)+i for i, c in enumerate(user)) * now.month * now.year
+            seed = prod(ord(c) + i for i, c in enumerate(user)) * now.month * now.year
         else:
             seed = user.id * now.month * now.year
         random.seed(seed)
@@ -34,15 +34,14 @@ class Misc(commands.Cog):
             await ctx.send(f"{name} is {gayness:.1%} gay.")
         random.seed()
 
-
     @commands.command()
     async def source(self, ctx, *, cmd):
         try:
             code = textwrap.dedent(inspect.getsource(ctx.bot.get_command(cmd).callback))
         except AttributeError:
-            return await ctx.send(f"Command \"{cmd}\" not found.")
+            return await ctx.send(f'Command "{cmd}" not found.')
 
-        fcode = code.replace('`', '\xb4')
+        fcode = code.replace("`", "\xb4")
         fcode = f"```py\n{fcode}\n```"
 
         if len(fcode) > 2000:

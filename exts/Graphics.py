@@ -1,29 +1,22 @@
 import random
+import colorsys
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import pilutils
-from pilutils.parse import parse
+from pilutils.parse import parse, nearest_named_color
 
 import discord
 from discord.ext import commands
 
 
-def luma(rgb):
-    r, g, b = rgb
-    l = r * 299 / 1000 + g * 587 / 1000 + b * 114 / 1000
-    return l
-
-
-font = ImageFont.truetype("ProductSans-Bold.ttf", 100)
-
-
 def make_palette(colors):
+    font = ImageFont.truetype("ProductSans-Bold.ttf", 100)
     background = Image.new("RGB", (1836, 1124))
     positions = [(0, 0), (612, 0), (1224, 0), (0, 562), (612, 562), (1224, 562)]
 
     for col, pos in zip(colors, positions):
         img = Image.new("RGB", (612, 562), col)
-        textcol = (0, 0, 0) if luma(col) > 130 else (255, 255, 255)
+        textcol = (0, 0, 0) if pilutils.luma(col) > 130 else (255, 255, 255)
         d = ImageDraw.Draw(img)
         text = f"#{pilutils.rgb_to_hex(col):06X}"
         textpos = pilutils.align_bbox(
@@ -38,6 +31,57 @@ def make_palette(colors):
 class Graphics(commands.Cog):
     @commands.command()
     async def color(self, ctx, *, color=None):
+        if not color:
+            c = pilutils.random_color()
+        else:
+            try:
+                c = parse(color)
+            except ValueError:
+                return await ctx.send("Color could not be parsed. :(")
+
+        img = Image.new("RGB", (1080, 720), col)
+        font = ImageFont.truetype("ProductSans-Regular.ttf", 50)
+        d = ImageDraw.Draw(img)
+
+        h, s, v = colorsys.rgb_to_hsv(*(c / 255 for c in col))
+        info = {
+            "24-bit RGB": ", ".join(map(str, col)),
+            "RGB fractions": ", ".join(f"{n/255:.2f}" for n in col),
+            "Hex": f"#{pilutils.rgb_to_hex(col):06X}",
+            "HSV": ", ".join((f"{h*360:.1f}°", f"{s:.1%}", f"{v:.1%}")),
+            "Nearest named color": nearest_named_color(col)[0],
+        }
+
+        keystr = "\n".join(info.keys())
+        valstr = "\n".join(info.values())
+
+        sp = 24
+        textcol = (0, 0, 0) if pilutils.luma(col) > 127 else (255, 255, 255)
+
+        keypos = pilutils.align_bbox(
+            (0, 0, *img.size),
+            font.getsize_multiline(keystr, spacing=sp),
+            align=7,
+            margin=25,
+            topleft_only=True,
+        )
+        valpos = pilutils.align_bbox(
+            (0, 0, *img.size),
+            font.getsize_multiline(valstr, spacing=sp),
+            align=9,
+            margin=25,
+            topleft_only=True,
+        )
+
+        d.text(keypos, keystr, textcol, font, spacing=sp)
+        d.text(valpos, valstr, textcol, font, align="right", spacing=sp)
+
+        img.save(bio := BytesIO(), "png")
+        bio.seek(0)
+        await ctx.send(file=discord.File(bio, f"{info['Hex']}.png"))
+
+    @commands.command()
+    async def oldcolor(self, ctx, *, color=None):
         if not color:
             c = pilutils.random_color()
         else:
@@ -63,10 +107,14 @@ class Graphics(commands.Cog):
                 return await ctx.send("Invalid color.")
             angle = random.choice((120, 180, 240))
             h, s, v = pilutils.rgb_to_hsv(base)
-            oh = (h + (angle/360*255)) % 256
+            oh = (h + (angle / 360 * 255)) % 256
             cols = [
-                (h, s, 128), (h, s, 192), (h, s, 255),
-                (oh, s, 128), (oh, s, 192), (oh, s, 255)
+                (h, s, 128),
+                (h, s, 192),
+                (h, s, 255),
+                (oh, s, 128),
+                (oh, s, 192),
+                (oh, s, 255),
             ]
             colors = map(pilutils.hsv_to_rgb, cols)
         img = make_palette(colors)

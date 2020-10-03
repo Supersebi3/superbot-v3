@@ -8,7 +8,7 @@ import libneko
 
 from bot import Bot
 
-__version__ = '0.0.1-p29'
+__version__ = '0.0.1-p30'
 
 # install pilutils after new setuptools has been built
 os.system("pip install git+https://github.com/Supersebi3/pilutils")
@@ -21,7 +21,11 @@ bot = Bot(command_prefix="s#")
 @bot.command()
 async def test(ctx):
     await ctx.sendstr(
-        "commands.test", sys.version, discord.__version__, libneko.__version__, __version__
+        "commands.test",
+        sys.version,
+        discord.__version__,
+        libneko.__version__,
+        __version__,
     )
 
 
