@@ -1,3 +1,3 @@
 {
-    "commands.test": "Hi! Python version: ```{}```dpy version: {}\nlibneko version: {}\nMy version: {}\nLanguage: English"
+    "commands.test": "Hi! Python version:```\n{}\n```dpy version: {}\nlibneko version: {}\nMy version: {}\nLanguage: English"
 }
