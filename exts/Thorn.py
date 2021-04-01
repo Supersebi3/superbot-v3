@@ -6,7 +6,7 @@ THORN_SERVER = 820940199609630741
 
 class Þorn(commands.Cog):
     def __init__(self, bot):
-        super().__init__(self, bot)
+        super().__init__(self)
         self.bot = bot
 
     @commands.Cog.listener("on_message")
