@@ -5,7 +5,7 @@ THORN_SERVER = 820940199609630741
 
 
 class Þorn(commands.Cog):
-    @commands.listen("on_message")
+    @Þorn.listener("on_message")
     async def thorn_react(self, msg):
         if msg.guild.id == THORN_SERVER:
             if "th" in msg.content.lower():
