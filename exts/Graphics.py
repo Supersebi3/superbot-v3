@@ -66,7 +66,7 @@ class Graphics(commands.Cog):
             topleft_only=True,
         )
         valpos = pilutils.align_bbox(
-                (0, 0, *img.size),
+            (0, 0, *img.size),
             font.getsize_multiline(valstr, spacing=sp),
             align=9,
             margin=25,
