@@ -1,3 +1,5 @@
+import random
+
 import discord
 from discord.ext import commands
 
@@ -21,9 +23,11 @@ class Þorn(commands.Cog):
             text.replace("th", "þ")
             .replace("Th", "Þ")
             .replace("TH", "Þ")
+            .replace("tH", random.choice("Þþ"))
             .replace("t.h", "th")
             .replace("T.h", "Th")
             .replace("T.H", "TH")
+            .replace("t.H", "tH")
         )
         await ctx.send(text)
 
