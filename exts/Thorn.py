@@ -17,7 +17,7 @@ class Þorn(commands.Cog):
                 emoji = self.bot.get_emoji(823566251900403722)
                 await msg.add_reaction(emoji)
 
-    @commands.command()
+    @commands.command(aliases=["thornify"])
     async def þornify(self, ctx, *, text: commands.clean_content):
         text = (
             text.replace("th", "þ")
