@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 
 THORN_SERVER = 820940199609630741
+THORN_EMOJI = 823566251900403722
 
 
 class Þorn(commands.Cog):
@@ -14,8 +15,15 @@ class Þorn(commands.Cog):
     async def thorn_react(self, msg):
         if msg.guild.id == THORN_SERVER:
             if "th" in msg.content.lower():
-                emoji = self.bot.get_emoji(823566251900403722)
+                emoji = self.bot.get_emoji(THORN_EMOJI)
                 await msg.add_reaction(emoji)
+
+    @commands.Cog.listener("on_message_edit")
+    async def thorn_react_check(self, before, after):
+        if after.guild.id == THORN_SERVER:
+            if not "th" in after.content.lower():
+                emoji = self.bot.get_emoji(THORN_EMOJI)
+                await after.remove_reaction(emoji, after.guild.me)
 
     @commands.command(aliases=["thornify"])
     async def þornify(self, ctx, *, text: commands.clean_content):
