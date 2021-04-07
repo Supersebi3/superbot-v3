@@ -21,8 +21,10 @@ class Þorn(commands.Cog):
     @commands.Cog.listener("on_message_edit")
     async def thorn_react_check(self, before, after):
         if after.guild.id == THORN_SERVER:
-            if not "th" in after.content.lower():
-                emoji = self.bot.get_emoji(THORN_EMOJI)
+            emoji = self.bot.get_emoji(THORN_EMOJI)
+            if "th" in after.content.lower():
+                await after.add_reaction(emoji)
+            else:
                 await after.remove_reaction(emoji, after.guild.me)
 
     @commands.command(aliases=["thornify"])
