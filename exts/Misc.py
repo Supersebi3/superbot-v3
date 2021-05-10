@@ -5,6 +5,7 @@ from io import BytesIO, StringIO
 from datetime import datetime
 import inspect
 import textwrap
+import unicodedata
 
 import discord
 from discord.ext import commands
@@ -52,6 +53,18 @@ class Misc(commands.Cog):
 
         else:
             await ctx.send(fcode)
+
+    @commands.command()
+    async def charinfo(self, ctx, *, chars: str):
+        lst = ["`" * 3]
+        for ch in chars:
+            hx = f"{ord(ch):X}"
+            name = unicodedata.name(ch).title()
+            cat = unicodedata.category(ch)
+            lst.append(f"- [{ch}]: {hx} ({cat}) - {name}")
+        lst.append("`" * 3)
+
+        await ctx.send("\n".join(lst))
 
 
 def setup(bot):
