@@ -13,6 +13,10 @@ class Þorn(commands.Cog):
 
     @commands.Cog.listener("on_message")
     async def thorn_react(self, msg):
+        if msg.guild is None:
+            return
+        if msg.author.id == msg.guild.me.id:
+            return
         if msg.guild.id == THORN_SERVER:
             if "th" in msg.content.lower():
                 emoji = self.bot.get_emoji(THORN_EMOJI)
@@ -20,6 +24,10 @@ class Þorn(commands.Cog):
 
     @commands.Cog.listener("on_message_edit")
     async def thorn_react_check(self, before, after):
+        if after.guild is None:
+            return
+        if after.author.id == after.guild.me.id:
+            return
         if after.guild.id == THORN_SERVER:
             emoji = self.bot.get_emoji(THORN_EMOJI)
             if "th" in after.content.lower():
