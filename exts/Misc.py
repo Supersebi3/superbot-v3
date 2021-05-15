@@ -58,7 +58,7 @@ class Misc(commands.Cog):
     async def charinfo(self, ctx, *, chars: str):
         lst = ["`" * 3]
         for ch in chars:
-            hx = f"\U{ord(ch):08X}"
+            hx = f"\\U{ord(ch):08X}"
             name = unicodedata.name(ch).title()
             cat = unicodedata.category(ch)
             lst.append(f"- [{ch}]: {hx} ({cat}) - {name}")
