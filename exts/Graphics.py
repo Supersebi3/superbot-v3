@@ -29,7 +29,7 @@ def make_palette(colors):
 
 
 class Graphics(commands.Cog):
-    @commands.command()
+    @commands.commanda(aliases=["colour"])
     async def color(self, ctx, *, color=None):
         if not color:
             col = pilutils.random_color()
@@ -80,7 +80,7 @@ class Graphics(commands.Cog):
         bio.seek(0)
         await ctx.send(file=discord.File(bio, f"{info['Hex']}.png"))
 
-    @commands.command()
+    @commands.command(aliases=["oldcolour"])
     async def oldcolor(self, ctx, *, color=None):
         if not color:
             c = pilutils.random_color()
