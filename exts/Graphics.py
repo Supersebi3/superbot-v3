@@ -29,7 +29,7 @@ def make_palette(colors):
 
 
 class Graphics(commands.Cog):
-    @commands.commanda(aliases=["colour"])
+    @commands.command(aliases=["colour"])
     async def color(self, ctx, *, color=None):
         if not color:
             col = pilutils.random_color()
