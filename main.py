@@ -8,7 +8,7 @@ import libneko
 
 from bot import Bot
 
-__version__ = '0.0.1-p53'
+__version__ = '0.0.1-p54'
 
 # install pilutils after new setuptools has been built
 os.system("pip install git+https://github.com/Supersebi3/pilutils")

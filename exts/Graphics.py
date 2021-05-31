@@ -6,6 +6,7 @@ import pilutils
 from pilutils.parse import parse, nearest_named_color
 
 import discord
+import aiohttp
 from discord.ext import commands
 
 
@@ -121,6 +122,26 @@ class Graphics(commands.Cog):
         img.save(bio := BytesIO(), "png")
         bio.seek(0)
         await ctx.send(file=discord.File(bio, "palette.png"))
+
+    @commands.cooldown(1, 5, commands.BucketType.guild)
+    @commands.command()
+    async def tpdne(self, ctx, type="person"):
+        """Available types: person, cat, horse, artwork"""
+        urls = {
+            "person": "https://thispersondoesnotexist.com/image",
+            "cat": "https://thiscatdoesnotexist.com",
+            "horse": "https://thishorsedoesnotexist.com",
+            "artwork": "https://thisartworkdoesnotexist.com",
+        }
+        if type not in urls:
+            return await ctx.send("Invalid type.")
+
+        async with aiohttp.request("GET", urls[type]) as resp:
+            data = await resp.read()
+
+        bio = BytesIO(data)
+        bio.seek(0)
+        await ctx.send(file=discord.File(bio, type + ".jpg"))
 
 
 def setup(bot):
