@@ -24,10 +24,10 @@ class Misc(commands.Cog):
             seed = prod(ord(c) + i for i, c in enumerate(user)) * now.month * now.year
         else:
             seed = user.id * now.month * now.year
-        if now.month == 6: # pride month
-            seed **= 0.25
         random.seed(seed)
         gayness = random.random()
+        if now.month == 6:  # pride month
+            gayness **= 0.25
         if user == "gay":
             gayness = 1
         if you:
