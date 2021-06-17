@@ -16,6 +16,7 @@ from pilutils.parse import parse
 class Misc(commands.Cog):
     @commands.command()
     async def howgay(self, ctx, *, user: Union[discord.User, str] = None):
+        """Note: this is not meant to be in any way homophobic, it's just a light hearted gag. Of course, all scores are 100% accurate (not)"""
         you = user is None
         if you:
             user = ctx.author
