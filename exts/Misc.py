@@ -130,6 +130,8 @@ class Misc(commands.Cog):
             resp = await tio.execute(code, language=lang, inputs=inp)
 
         out = resp.stdout or "(no output)"
+        if len(out) > 1000:
+            out = out[:995] + "[...]"
 
         col = green if resp.exit_status == "0" else red
         desc = f"**Output: **```\n{out}\n```"
