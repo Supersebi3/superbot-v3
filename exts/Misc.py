@@ -129,8 +129,10 @@ class Misc(commands.Cog):
 
             resp = await tio.execute(code, language=lang, inputs=inp)
 
+        out = resp.stdout or "(no output)"
+
         col = green if resp.exit_status == "0" else red
-        desc = f"**Output: **```\n{resp.stdout}\n```"
+        desc = f"**Output: **```\n{out}\n```"
 
         em = libneko.Embed(color=col, title=lang, description=desc).set_footer(
             text=f"Took about {resp.real_time} seconds."
