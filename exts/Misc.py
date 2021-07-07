@@ -129,16 +129,25 @@ class Misc(commands.Cog):
 
             resp = await tio.execute(code, language=lang, inputs=inp)
 
-        out = resp.stdout or "(no output)"
-        if len(out) > 1000:
-            out = out[:995] + "[...]"
 
-        col = green if resp.exit_status == "0" else red
-        desc = f"**Output: **```\n{out}\n```"
+        if resp.exit_status == "":
+            col = red
+            desc = "\u274c Execution timed out."
+            foot = False
+        else:
+            out = resp.stdout or "(no output)"
+            if len(out) > 1000:
+                out = out[:995] + "[...]"
 
-        em = libneko.Embed(color=col, title=lang, description=desc).set_footer(
-            text=f"Took about {resp.real_time} seconds."
-        )
+            col = green if resp.exit_status == "0" else red
+            desc = f"**Output: **```\n{out}\n```"
+            foot = True
+
+        em = libneko.Embed(color=col, title=lang, description=desc)
+        if foot:
+            em.set_footer(
+                text=f"Took about {resp.real_time} seconds."
+            )
         await ctx.send(embed=em)
 
 
