@@ -1,4 +1,5 @@
 import random
+import re
 from math import prod
 from typing import Union
 from io import BytesIO, StringIO
@@ -8,9 +9,11 @@ import textwrap
 import unicodedata
 
 import discord
+import libneko
 from discord.ext import commands
 from PIL import Image
 from pilutils.parse import parse
+from async_tio import Tio
 
 
 class Misc(commands.Cog):
@@ -74,6 +77,65 @@ class Misc(commands.Cog):
         lst.append("`" * 3)
 
         await ctx.send("\n".join(lst))
+
+    @commands.command(aliases=["run"])
+    async def tio(self, ctx, *, arg):
+        """Run code using tio.run.
+
+        The first argument should be a code block. The language of the code block specifies the language that the code is assumed to be in.
+
+        Anything after the first code block will be considered input.
+        """
+        lang_aliases = {
+            "py": "python3",
+            "python": "python3",
+            "js": "javascript",
+            "bf": "brainfuck",
+        }
+        red = discord.Color.red()
+        green = discord.Color.green()
+        pattern = re.compile(
+            r"```(?P<language>\w+)\s*?\n(?P<code>.+?)```(?P<input>.*)", re.DOTALL
+        )
+
+        if (m := pattern.match(arg)) is None:
+            return await ctx.send(
+                embed=libneko.Embed(color=red, description="\u274c Invalid input.")
+            )
+
+        if "code" not in m.groupdict():
+            return await ctx.send(
+                embed=libneko.Embed(color=red, description="\u274c No code provided.")
+            )
+        if "language" not in m.groupdict():
+            return await ctx.send(
+                embed=libneko.Embed(
+                    color=red, description="\u274c No language provided."
+                )
+            )
+
+        lang = m["language"].lower()
+        lang = lang_aliases.get(lang, lang)
+        code = m["code"]
+        inp = m.groupdict().get("input", "").strip() or None
+
+        async with await Tio() as tio:
+            if lang not in tio.languages:
+                return await ctx.send(
+                    embed=libneko.Embed(
+                        color=red, description=f"\u274c Unknown language {lang!r}"
+                    )
+                )
+
+            resp = await tio.execute(code, language=lang, inputs=inp)
+
+        col = green if resp.exit_status == "0" else red
+        desc = f"**Output: **```\n{resp.stdout}\n```"
+
+        em = libneko.Embed(color=col, title=lang.title(), description=desc).set_footer(
+            text=f"Took about {resp.real_time} seconds."
+        )
+        await ctx.send(embed=em)
 
 
 def setup(bot):
