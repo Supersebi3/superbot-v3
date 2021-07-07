@@ -119,15 +119,16 @@ class Misc(commands.Cog):
         code = m["code"]
         inp = m.groupdict().get("input", "").strip() or None
 
-        async with await Tio() as tio:
-            if lang not in tio.languages:
-                return await ctx.reply(
-                    embed=libneko.Embed(
-                        color=red, description=f"\u274c Unknown language {lang!r}"
+        async with ctx.typing():
+            async with await Tio() as tio:
+                if lang not in tio.languages:
+                    return await ctx.reply(
+                        embed=libneko.Embed(
+                            color=red, description=f"\u274c Unknown language {lang!r}"
+                        )
                     )
-                )
 
-            resp = await tio.execute(code, language=lang, inputs=inp)
+                resp = await tio.execute(code, language=lang, inputs=inp)
 
 
         if resp.exit_status == "":
