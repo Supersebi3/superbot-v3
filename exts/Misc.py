@@ -99,16 +99,16 @@ class Misc(commands.Cog):
         )
 
         if (m := pattern.match(arg)) is None:
-            return await ctx.send(
+            return await ctx.reply(
                 embed=libneko.Embed(color=red, description="\u274c Invalid input.")
             )
 
         if "code" not in m.groupdict():
-            return await ctx.send(
+            return await ctx.reply(
                 embed=libneko.Embed(color=red, description="\u274c No code provided.")
             )
         if "language" not in m.groupdict():
-            return await ctx.send(
+            return await ctx.reply(
                 embed=libneko.Embed(
                     color=red, description="\u274c No language provided."
                 )
@@ -121,7 +121,7 @@ class Misc(commands.Cog):
 
         async with await Tio() as tio:
             if lang not in tio.languages:
-                return await ctx.send(
+                return await ctx.reply(
                     embed=libneko.Embed(
                         color=red, description=f"\u274c Unknown language {lang!r}"
                     )
@@ -148,7 +148,7 @@ class Misc(commands.Cog):
             em.set_footer(
                 text=f"Took about {resp.real_time} seconds."
             )
-        await ctx.send(embed=em)
+        await ctx.reply(embed=em)
 
 
 def setup(bot):
