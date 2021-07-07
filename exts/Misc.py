@@ -132,7 +132,7 @@ class Misc(commands.Cog):
         col = green if resp.exit_status == "0" else red
         desc = f"**Output: **```\n{resp.stdout}\n```"
 
-        em = libneko.Embed(color=col, title=lang.title(), description=desc).set_footer(
+        em = libneko.Embed(color=col, title=lang, description=desc).set_footer(
             text=f"Took about {resp.real_time} seconds."
         )
         await ctx.send(embed=em)
