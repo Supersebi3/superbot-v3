@@ -100,18 +100,21 @@ class Misc(commands.Cog):
 
         if (m := pattern.match(arg)) is None:
             return await ctx.reply(
-                embed=libneko.Embed(color=red, description="\u274c Invalid input.")
+                embed=libneko.Embed(color=red, description="\u274c Invalid input."),
+                mention_author=False,
             )
 
         if "code" not in m.groupdict():
             return await ctx.reply(
-                embed=libneko.Embed(color=red, description="\u274c No code provided.")
+                embed=libneko.Embed(color=red, description="\u274c No code provided."),
+                mention_author=False,
             )
         if "language" not in m.groupdict():
             return await ctx.reply(
                 embed=libneko.Embed(
                     color=red, description="\u274c No language provided."
-                )
+                ),
+                mention_author=False,
             )
 
         lang = m["language"].lower()
@@ -125,11 +128,11 @@ class Misc(commands.Cog):
                     return await ctx.reply(
                         embed=libneko.Embed(
                             color=red, description=f"\u274c Unknown language {lang!r}"
-                        )
+                        ),
+                        mention_author=False,
                     )
 
                 resp = await tio.execute(code, language=lang, inputs=inp)
-
 
         if resp.exit_status == "":
             col = red
@@ -146,10 +149,8 @@ class Misc(commands.Cog):
 
         em = libneko.Embed(color=col, title=lang, description=desc)
         if foot:
-            em.set_footer(
-                text=f"Took about {resp.real_time} seconds."
-            )
-        await ctx.reply(embed=em)
+            em.set_footer(text=f"Took about {resp.real_time} seconds.")
+        await ctx.reply(embed=em, mention_author=False)
 
 
 def setup(bot):
