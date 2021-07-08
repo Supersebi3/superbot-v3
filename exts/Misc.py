@@ -95,7 +95,7 @@ class Misc(commands.Cog):
         red = discord.Color.red()
         green = discord.Color.green()
         pattern = re.compile(
-            r"```(?P<language>\w*)\s*?\n(?P<code>.*?)```(?P<input>.*)", re.DOTALL
+            r"```(?P<language>[\w-]*)\s*?\n(?P<code>.*?)```(?P<input>.*)", re.DOTALL
         )
 
         if (m := pattern.match(arg)) is None:
