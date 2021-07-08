@@ -95,7 +95,7 @@ class Misc(commands.Cog):
         red = discord.Color.red()
         green = discord.Color.green()
         pattern = re.compile(
-            r"```(?P<language>\w+)\s*?\n(?P<code>.+?)```(?P<input>.*)", re.DOTALL
+            r"```(?P<language>\w*)\s*?\n(?P<code>.*?)```(?P<input>.*)", re.DOTALL
         )
 
         if (m := pattern.match(arg)) is None:
@@ -104,12 +104,12 @@ class Misc(commands.Cog):
                 mention_author=False,
             )
 
-        if "code" not in m.groupdict():
+        if not m["code"].strip():
             return await ctx.reply(
                 embed=libneko.Embed(color=red, description="\u274c No code provided."),
                 mention_author=False,
             )
-        if "language" not in m.groupdict():
+        if not m["language"].strip():
             return await ctx.reply(
                 embed=libneko.Embed(
                     color=red, description="\u274c No language provided."
