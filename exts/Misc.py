@@ -89,8 +89,10 @@ class Misc(commands.Cog):
         lang_aliases = {
             "py": "python3",
             "python": "python3",
-            "js": "javascript",
+            "js": "javascript-node",
             "bf": "brainfuck",
+            "sf": "starfish",
+            "fs": "fs-core",
         }
         red = discord.Color.red()
         green = discord.Color.green()
