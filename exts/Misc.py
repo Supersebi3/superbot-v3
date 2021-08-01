@@ -13,6 +13,7 @@ from discord.ext import commands
 from PIL import Image
 from pilutils.parse import parse
 from async_tio import Tio
+from utils import checks
 
 
 class Misc(commands.Cog):
@@ -40,6 +41,7 @@ class Misc(commands.Cog):
             await ctx.send(f"{name} is {gayness:.1%} gay.")
         random.seed()
 
+    @checks.no_bots()
     @commands.command()
     async def source(self, ctx, *, cmd):
         try:
@@ -77,6 +79,7 @@ class Misc(commands.Cog):
 
         await ctx.send("\n".join(lst))
 
+    @checks.no_bots()
     @commands.command(aliases=["run"])
     async def tio(self, ctx, *, arg):
         """Run code using tio.run.

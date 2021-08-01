@@ -4,7 +4,7 @@ from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import pilutils
 from pilutils.parse import parse, nearest_named_color
-from utils import pilcolorblind
+from utils import pilcolorblind, checks
 
 import discord
 import aiohttp
@@ -31,6 +31,7 @@ def make_palette(colors):
 
 
 class Graphics(commands.Cog):
+    @checks.no_bots()
     @commands.command(aliases=["colour"])
     async def color(self, ctx, *, color=None):
         if not color:
@@ -82,6 +83,7 @@ class Graphics(commands.Cog):
         bio.seek(0)
         await ctx.send(file=discord.File(bio, f"{info['Hex']}.png"))
 
+    @checks.no_bots()
     @commands.command(aliases=["oldcolour"])
     async def oldcolor(self, ctx, *, color=None):
         if not color:
@@ -96,6 +98,7 @@ class Graphics(commands.Cog):
         bio.seek(0)
         await ctx.send(str(c), file=discord.File(bio, "color.png"))
 
+    @checks.no_bots()
     @commands.command()
     async def palette(self, ctx, *, color=None):
         if not color:
@@ -124,6 +127,7 @@ class Graphics(commands.Cog):
         bio.seek(0)
         await ctx.send(file=discord.File(bio, "palette.png"))
 
+    @checks.no_bots()
     @commands.cooldown(1, 5, commands.BucketType.guild)
     @commands.command()
     async def tpdne(self, ctx, type="person"):
@@ -144,6 +148,7 @@ class Graphics(commands.Cog):
         bio.seek(0)
         await ctx.send(file=discord.File(bio, type + ".jpg"))
 
+    @checks.no_bots()
     @commands.cooldown(1, 5, commands.BucketType.guild)
     @commands.command(aliases=["colourblind"])
     async def colorblind(self, ctx, *, variant="protanopia"):

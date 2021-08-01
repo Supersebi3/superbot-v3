@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from utils import checks
 
 
 def base4(n):
@@ -13,6 +14,7 @@ def base4(n):
 
 
 class Puzzle(commands.Cog):
+    @checks.no_bots()
     @commands.command()
     async def encode(self, ctx, num1: int, num2: int):
         """Encode a pair of numbers. Encode how? That's for you to find out!"""
@@ -26,6 +28,7 @@ class Puzzle(commands.Cog):
             t = f"{t}{new}"
         await ctx.send(int(t, 4))
 
+    @checks.no_bots()
     @commands.command()
     async def decode(self, ctx, num: int):
         """Reverse the encoding."""
@@ -41,6 +44,7 @@ class Puzzle(commands.Cog):
             f *= 2
         await ctx.send((num1, num2))
 
+    @checks.no_bots()
     @commands.command()
     async def tobase(self, ctx, num: int, base: int):
         """Convert any integer to any base between 2 and 36."""
