@@ -9,7 +9,6 @@ import textwrap
 import unicodedata
 
 import discord
-import libneko
 from discord.ext import commands
 from PIL import Image
 from pilutils.parse import parse
@@ -102,18 +101,18 @@ class Misc(commands.Cog):
 
         if (m := pattern.match(arg)) is None:
             return await ctx.reply(
-                embed=libneko.Embed(color=red, description="\u274c Invalid input."),
+                embed=discord.Embed(color=red, description="\u274c Invalid input."),
                 mention_author=False,
             )
 
         if not m["code"].strip():
             return await ctx.reply(
-                embed=libneko.Embed(color=red, description="\u274c No code provided."),
+                embed=discord.Embed(color=red, description="\u274c No code provided."),
                 mention_author=False,
             )
         if not m["language"].strip():
             return await ctx.reply(
-                embed=libneko.Embed(
+                embed=discord.Embed(
                     color=red, description="\u274c No language provided."
                 ),
                 mention_author=False,
@@ -128,7 +127,7 @@ class Misc(commands.Cog):
             async with await Tio() as tio:
                 if lang not in tio.languages:
                     return await ctx.reply(
-                        embed=libneko.Embed(
+                        embed=discord.Embed(
                             color=red, description=f"\u274c Unknown language {lang!r}"
                         ),
                         mention_author=False,
@@ -149,7 +148,7 @@ class Misc(commands.Cog):
             desc = f"**Output: **```\n{out}\n```"
             foot = True
 
-        em = libneko.Embed(color=col, title=lang, description=desc)
+        em = discord.Embed(color=col, title=lang, description=desc)
         if foot:
             em.set_footer(text=f"Took about {resp.real_time} seconds.")
         await ctx.reply(embed=em, mention_author=False)

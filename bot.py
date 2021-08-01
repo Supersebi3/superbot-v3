@@ -1,15 +1,17 @@
 import os
 import json
 
-import libneko
 from discord.ext import commands
 from context import Context
 
 
-class Bot(libneko.Bot):
+class Bot(commands.Bot):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.uconf = {242887101018931200: {"language": "de"}}
+        self.uconf = {
+            242887101018931200: {"language": "de"},
+            513792552755789825: {"language": "de"},
+        }
 
         self.strings = {}
         for name in os.listdir("i18n"):

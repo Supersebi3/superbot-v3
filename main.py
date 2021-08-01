@@ -3,12 +3,12 @@ import sys
 import logging
 
 import discord
-from discord.ext import commands
 import libneko
+from discord.ext import commands
 
 from bot import Bot
 
-__version__ = '0.0.1-p68'
+__version__ = '0.0.1-p69'
 
 # install pilutils after new setuptools has been built
 os.system("pip install git+https://github.com/Supersebi3/pilutils")
@@ -49,5 +49,3 @@ for ext in exts:
 
 
 bot.run(os.environ["TOKEN"])
-
-# this is not a comment

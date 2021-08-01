@@ -4,6 +4,7 @@ from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import pilutils
 from pilutils.parse import parse, nearest_named_color
+from utils import pilcolorblind
 
 import discord
 import aiohttp
@@ -142,6 +143,42 @@ class Graphics(commands.Cog):
         bio = BytesIO(data)
         bio.seek(0)
         await ctx.send(file=discord.File(bio, type + ".jpg"))
+
+    @commands.cooldown(1, 5, commands.BucketType.guild)
+    @commands.command()
+    async def colorblind(self, ctx, *, variant="protanopia"):
+        """Available variants:
+    prot/protan/protanopia
+    deuter/deuteran/deuteranopia
+    trit/tritan/tritanopia"""
+
+    variants = {
+        "prot": pilcolorblind.protanopia,
+        "protan": pilcolorblind.protanopia,
+        "protanopia": pilcolorblind.protanopia,
+        "deuter": pilcolorblind.deuteranopia,
+        "deuteran": pilcolorblind.deuteranopia,
+        "deuteranopia": pilcolorblind.deuteranopia,
+        "trit": pilcolorblind.tritanopia,
+        "tritan": pilcolorblind.tritanopia,
+        "tritanopia": pilcolorblind.tritanopia,
+    }
+
+    if variant not in variants:
+        return await ctx.send("Invalid variant. See `s#help colorblind` for details.")
+
+    try:
+        attachment = ctx.message.attachments[0]
+    except IndexError:
+        return await ctx.send("Please attach an image.")
+
+    img = Image.open(BytesIO(await attachment.read())).convert("RGBA")
+
+    func = variants[variant]
+    new = func(img)
+
+    new.save(bio := BytesIO(), "PNG")
+    await ctx.send(file=discord.File(bio, "colorblind.png"))
 
 
 def setup(bot):
