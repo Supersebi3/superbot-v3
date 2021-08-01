@@ -152,33 +152,35 @@ class Graphics(commands.Cog):
     deuter/deuteran/deuteranopia
     trit/tritan/tritanopia"""
 
-    variants = {
-        "prot": pilcolorblind.protanopia,
-        "protan": pilcolorblind.protanopia,
-        "protanopia": pilcolorblind.protanopia,
-        "deuter": pilcolorblind.deuteranopia,
-        "deuteran": pilcolorblind.deuteranopia,
-        "deuteranopia": pilcolorblind.deuteranopia,
-        "trit": pilcolorblind.tritanopia,
-        "tritan": pilcolorblind.tritanopia,
-        "tritanopia": pilcolorblind.tritanopia,
-    }
+        variants = {
+            "prot": pilcolorblind.protanopia,
+            "protan": pilcolorblind.protanopia,
+            "protanopia": pilcolorblind.protanopia,
+            "deuter": pilcolorblind.deuteranopia,
+            "deuteran": pilcolorblind.deuteranopia,
+            "deuteranopia": pilcolorblind.deuteranopia,
+            "trit": pilcolorblind.tritanopia,
+            "tritan": pilcolorblind.tritanopia,
+            "tritanopia": pilcolorblind.tritanopia,
+        }
 
-    if variant not in variants:
-        return await ctx.send("Invalid variant. See `s#help colorblind` for details.")
+        if variant not in variants:
+            return await ctx.send(
+                "Invalid variant. See `s#help colorblind` for details."
+            )
 
-    try:
-        attachment = ctx.message.attachments[0]
-    except IndexError:
-        return await ctx.send("Please attach an image.")
+        try:
+            attachment = ctx.message.attachments[0]
+        except IndexError:
+            return await ctx.send("Please attach an image.")
 
-    img = Image.open(BytesIO(await attachment.read())).convert("RGBA")
+        img = Image.open(BytesIO(await attachment.read())).convert("RGBA")
 
-    func = variants[variant]
-    new = func(img)
+        func = variants[variant]
+        new = func(img)
 
-    new.save(bio := BytesIO(), "PNG")
-    await ctx.send(file=discord.File(bio, "colorblind.png"))
+        new.save(bio := BytesIO(), "PNG")
+        await ctx.send(file=discord.File(bio, "colorblind.png"))
 
 
 def setup(bot):
