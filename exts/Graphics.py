@@ -177,7 +177,7 @@ class Graphics(commands.Cog):
         img = Image.open(BytesIO(await attachment.read())).convert("RGBA")
 
         func = variants[variant]
-        new = func(img)
+        new = await ctx.bot.loop.run_in_executor(None, func, img)
 
         new.save(bio := BytesIO(), "PNG")
         bio.seek(0)
