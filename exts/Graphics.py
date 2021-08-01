@@ -180,6 +180,7 @@ class Graphics(commands.Cog):
         new = func(img)
 
         new.save(bio := BytesIO(), "PNG")
+        bio.seek(0)
         await ctx.send(file=discord.File(bio, "colorblind.png"))
 
 
