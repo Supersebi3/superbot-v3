@@ -8,7 +8,7 @@ from discord.ext import commands
 
 from bot import Bot
 
-__version__ = '0.0.1-p71'
+__version__ = '0.0.1-p72'
 
 # install pilutils after new setuptools has been built
 os.system("pip install git+https://github.com/Supersebi3/pilutils")

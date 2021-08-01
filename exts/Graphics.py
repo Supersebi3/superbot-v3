@@ -145,7 +145,7 @@ class Graphics(commands.Cog):
         await ctx.send(file=discord.File(bio, type + ".jpg"))
 
     @commands.cooldown(1, 5, commands.BucketType.guild)
-    @commands.command()
+    @commands.command(aliases=["colourblind"])
     async def colorblind(self, ctx, *, variant="protanopia"):
         """Available variants:
     prot/protan/protanopia
