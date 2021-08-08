@@ -12,22 +12,27 @@ from discord.ext import commands
 
 
 def make_palette(colors):
-    font = ImageFont.truetype("ProductSans-Bold.ttf", 100)
     background = Image.new("RGB", (1836, 1124))
     positions = [(0, 0), (612, 0), (1224, 0), (0, 562), (612, 562), (1224, 562)]
 
     for col, pos in zip(colors, positions):
-        img = Image.new("RGB", (612, 562), col)
-        textcol = (0, 0, 0) if pilutils.luma(col) > 130 else (255, 255, 255)
-        d = ImageDraw.Draw(img)
-        text = f"#{pilutils.rgb_to_hex(col):06X}"
-        textpos = pilutils.align_bbox(
-            (0, 0, *img.size), font.getsize(text), align=3, margin=30
-        )
-        d.text(textpos, text, textcol, font)
+        img = make_colorbox(col, (612, 562), 100)
         background.paste(img, pos)
 
     return background
+
+
+def make_colorbox(color, size, fontsize):
+    font = ImageFont.truetype("ProductSans-Bold.ttf", fontsize)
+    img = Image.new("RGB", size, color)
+    textcol = (0, 0, 0) if pilutils.luma(color) > 130 else (255, 255, 255)
+    d = ImageDraw.Draw(img)
+    text = f"#{pilutils.rgb_to_hex(color):06X}"
+    textpos = pilutils.align_bbox(
+        (0, 0, *img.size), font.getsize(text), align=3, margin=30
+    )
+    d.text(textpos, text, textcol, font)
+    return img
 
 
 class Graphics(commands.Cog):
