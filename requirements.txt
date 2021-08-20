@@ -5,3 +5,4 @@ requests
 aiofiles
 Pillow
 async_tio
+numpy
