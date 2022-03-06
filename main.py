@@ -8,14 +8,17 @@ from discord.ext import commands
 
 from bot import Bot
 
-__version__ = '0.0.1-p76'
+__version__ = '0.0.1-p77'
 
 # install pilutils after new setuptools has been built
 os.system("pip install git+https://github.com/Supersebi3/pilutils")
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(command_prefix="s#")
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = Bot(command_prefix="s#", intents=intents)
 
 
 @bot.command()
