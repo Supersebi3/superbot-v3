@@ -11,6 +11,7 @@ import unicodedata
 import discord
 from discord.ext import commands
 from PIL import Image
+import aiohttp
 from pilutils.parse import parse
 from async_tio import Tio
 from utils import checks
@@ -63,9 +64,11 @@ class Misc(commands.Cog):
 
     @commands.command()
     async def charinfo(self, ctx, *, chars: str):
+        components = []
         lst = ["`" * 3]
         for ch in chars:
             o = ord(ch)
+            components.append(f"{o:x}")
             if o < 0x100:
                 hx = f"\\x{o:02X}"
             elif o < 0x10000:
@@ -76,6 +79,11 @@ class Misc(commands.Cog):
             cat = unicodedata.category(ch)
             lst.append(f"- [{ch}]: {hx} ({cat}) - {name}")
         lst.append("`" * 3)
+
+        url = f"https://github.com/twitter/twemoji/blob/master/assets/svg/{'-'.join(components)}.svg"
+        async with aiohttp.request("GET", url) as resp:
+            if resp.status == 200:
+                lst.append(f"Twemoji URL: <{url}>")
 
         await ctx.send("\n".join(lst))
 
