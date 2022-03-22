@@ -80,10 +80,18 @@ class Misc(commands.Cog):
             lst.append(f"- [{ch}]: {hx} ({cat}) - {name}")
         lst.append("`" * 3)
 
-        url = f"https://github.com/twitter/twemoji/blob/master/assets/svg/{'-'.join(components)}.svg"
-        async with aiohttp.request("GET", url) as resp:
-            if resp.status == 200:
-                lst.append(f"Twemoji URL: <{url}>")
+        try_again = True
+        while try_again:
+            url = f"https://github.com/twitter/twemoji/blob/master/assets/svg/{'-'.join(components)}.svg"
+            async with aiohttp.request("GET", url) as resp:
+                if resp.status == 200:
+                    lst.append(f"Twemoji URL: <{url}>")
+                    try_again = False
+                elif components[-1] == "fe0f":
+                    components.pop(-1)
+                    try_again = True
+                else:
+                    try_again = False
 
         await ctx.send("\n".join(lst))
 
