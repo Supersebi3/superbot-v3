@@ -13,7 +13,14 @@ from discord.ext import commands
 
 def make_palette(colors):
     background = Image.new("RGB", (1836, 1124))
-    positions = [(0, 0), (612, 0), (1224, 0), (0, 562), (612, 562), (1224, 562)]
+    positions = [
+        (0, 0),
+        (612, 0),
+        (1224, 0),
+        (0, 562),
+        (612, 562),
+        (1224, 562),
+    ]
 
     for col, pos in zip(colors, positions):
         img = make_colorbox(col, (612, 562), 100)
@@ -36,6 +43,84 @@ def make_colorbox(color, size, fontsize):
 
 
 class Graphics(commands.Cog):
+    @checks.no_bots()
+    @commands.command(aliases=["colours"])
+    async def colors(self, ctx, *colors):
+        if len(colors) == 0:
+            return await ctx.send("Please specify at least one color.")
+
+        try:
+            colors = [parse(color) for color in colors]
+        except ValueError:
+            return await ctx.send("Colors could not be parsed. :(")
+
+        if len(colors) > 15:
+            return await ctx.send(
+                "Sorry, but I only allow at most 15 colors at once."
+            )
+
+        if len(colors) == 1:
+            img = make_colorbox(color, (612, 562), 100)
+        elif len(colors) == 2:
+            img = Image.new("RGB", (1224, 562))
+            box0 = make_colorbox(colors[0], (612, 562), 100)
+            box1 = make_colorbox(colors[1], (612, 562), 100)
+            img.paste(box0, (0, 0))
+            img.paste(box1, (612, 0))
+        elif len(colors) % 3 == 0:
+            # 3 boxes in last row
+            width = 612 * 3
+            height = 562 * (len(colors) // 3)
+            img = Image.new("RGB", (width, height))
+            for i, color in enumerate(colors):
+                xpos = (i % 3) * 612
+                ypos = (i // 3) * 562
+                box = make_colorbox(color, (612, 562), 100)
+                img.paste(box, (xpos, ypos))
+        elif len(colors) % 3 == 1:
+            # 1 box in last row
+            width = 612 * 3
+            height = 562 * (len(colors) // 3 + 1)
+            last = colors.pop()
+
+            # same as above
+            img = Image.new("RGB", (width, height))
+            for i, color in enumerate(colors):
+                xpos = (i % 3) * 612
+                ypos = (i // 3) * 562
+                box = make_colorbox(color, (612, 562), 100)
+                img.paste(box, (xpos, ypos))
+
+            # last box
+            box = make_colorbox(last, (width, 562), 100)
+            img.paste(box, (0, height - 562))
+        elif len(colors) % 3 == 2:
+            # 2 boxes in last row
+            width = 612 * 3
+            height = 562 * (len(colors) // 3 + 1)
+            last = colors.pop()
+            sndlast = colors.pop()
+            last2 = (sndlast, last)
+
+            # same as above
+            img = Image.new("RGB", (width, height))
+            for i, color in enumerate(colors):
+                xpos = (i % 3) * 612
+                ypos = (i // 3) * 562
+                box = make_colorbox(color, (612, 562), 100)
+                img.paste(box, (xpos, ypos))
+
+            # last 2 boxes
+            boxes = [make_colorbox(color, (918, 562), 100) for color in last2]
+            img.paste(boxes[0], (0, height - 562))
+            img.paste(boxes[1], (918, height - 562))
+        else:  # shouldnt happen
+            return await ctx.send("Something went wrong.")
+
+        img.save(bio := BytesIO(), "png")
+        bio.seek(0)
+        await ctx.send(file=discord.File(bio, f"colors.png"))
+
     @checks.no_bots()
     @commands.command(aliases=["colour"])
     async def color(self, ctx, *, color=None):
@@ -108,7 +193,8 @@ class Graphics(commands.Cog):
     async def palette(self, ctx, *, color=None):
         if not color:
             colors = (
-                pilutils.mix(pilutils.random_color(), (255, 255, 255)) for _ in range(6)
+                pilutils.mix(pilutils.random_color(), (255, 255, 255))
+                for _ in range(6)
             )
         else:
             try:
@@ -158,9 +244,9 @@ class Graphics(commands.Cog):
     @commands.command(aliases=["colourblind"])
     async def colorblind(self, ctx, *, variant="protanopia"):
         """Available variants:
-    prot/protan/protanopia
-    deuter/deuteran/deuteranopia
-    trit/tritan/tritanopia"""
+        prot/protan/protanopia
+        deuter/deuteran/deuteranopia
+        trit/tritan/tritanopia"""
 
         variants = {
             "prot": pilcolorblind.protanopia,
